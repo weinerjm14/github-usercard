@@ -24,7 +24,11 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [tetondan,
+  dustinmyers,
+  justsml,
+  luishrd,
+  bigknell];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -53,3 +57,59 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+axios.get('https://api.github.com/users/weinerjm14')
+.then( (response) => {
+  cardMaker(response.data);
+})
+.catch( (err) => {
+  console.log(err);
+})
+function cardMaker(data){
+  let holder = document.querySelector('.cards');
+  let single = document.createElement('div');
+  single.classList.add('card');
+  holder.appendChild(single);
+
+  let pic = document.createElement('img');
+  pic.src = data.avatar_url;
+  single.appendChild(pic);
+
+  let infoHolder = document.createElement('div');
+  infoHolder.classList.add('card-info');
+  single.appendChild(infoHolder);
+
+  let name = document.createElement('h3');
+  name.classList.add('name');
+  name.textContent = data.name;
+  infoHolder.appendChild(name);
+
+  let userName = document.createElement('p');
+  userName.classList.add('username');
+  infoHolder.appendChild(userName);
+
+  let location = document.createElement('p');
+  location.textContent = `Location: ${data.location}`;
+  infoHolder.appendChild(location);
+
+  let profile = document.createElement('p');
+  profile.textContent = 'Profile: '
+  infoHolder.appendChild(profile);
+
+  let profileLink = document.createElement('a');
+  profileLink.setAttribute('href', data.html_url);
+  profileLink.textContent = data.html_url;
+  profile.appendChild(profileLink);
+
+  let followers = document.createElement('p');
+  followers.textContent = `Followers: ${data.followers}`;
+  infoHolder.appendChild(followers);
+
+  let following = document.createElement('p');
+  following.textContent = `Following: ${data.following}`;
+  infoHolder.appendChild(following);
+
+  let bio = document.createElement('p');
+  bio.textContent = `Bio: ${data.bio}`;
+  infoHolder.appendChild(bio);
+}
