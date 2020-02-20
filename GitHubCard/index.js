@@ -24,11 +24,12 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [tetondan,
-  dustinmyers,
-  justsml,
-  luishrd,
-  bigknell];
+const followersArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -58,13 +59,8 @@ const followersArray = [tetondan,
   bigknell
 */
 
-axios.get('https://api.github.com/users/weinerjm14')
-.then( (response) => {
-  cardMaker(response.data);
-})
-.catch( (err) => {
-  console.log(err);
-})
+
+
 function cardMaker(data){
   let holder = document.querySelector('.cards');
   let single = document.createElement('div');
@@ -113,3 +109,47 @@ function cardMaker(data){
   bio.textContent = `Bio: ${data.bio}`;
   infoHolder.appendChild(bio);
 }
+axios.get('https://api.github.com/users/weinerjm14')
+.then( (response) => {
+  cardMaker(response.data);
+})
+.catch( (err) => {
+  console.log(err);
+})
+
+followersArray.forEach((item) => {
+  axios.get(`https://api.github.com/users/${item}`)
+  .then( (response) => {
+    cardMaker(response.data);
+  })
+  .catch( (err) => {
+    console.log(err);
+  })
+})
+
+// stretch
+// Programatically getting followers
+// axios.get(`https://api.github.com/users/weinerjm14/followers`)
+// .then(response => response.data.forEach((item) => {
+//   axios.get(item.url)
+//     .then ((newResponse) => {
+//       cardMaker(newResponse.data);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     }
+//     )}
+// ))
+
+// Progamattically getting following
+axios.get(`https://api.github.com/users/weinerjm14/following`)
+.then(response => response.data.forEach((item) => {
+  axios.get(item.url)
+    .then ((newResponse) => {
+      cardMaker(newResponse.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    }
+    )}
+))
