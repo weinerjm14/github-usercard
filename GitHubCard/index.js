@@ -10,6 +10,7 @@
    Skip to Step 3.
 */
 
+
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
@@ -140,6 +141,9 @@ followersArray.forEach((item) => {
 //     }
 //     )}
 // ))
+      // .catch((err) => {
+      //   console.log(err);
+      // }
 
 // Progamattically getting following
 axios.get(`https://api.github.com/users/weinerjm14/following`)
@@ -153,3 +157,6 @@ axios.get(`https://api.github.com/users/weinerjm14/following`)
     }
     )}
 ))
+.catch((err) => {
+  console.log(err);
+})
